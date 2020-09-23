@@ -1,4 +1,4 @@
-import { View } from "react-native";
+import { View, Image, Platform } from "react-native";
 
 import React from "react";
 import { createBottomTabNavigator } from "@react-navigation/bottom-tabs";
@@ -9,6 +9,7 @@ import Notifications from "../screens/Tabs/Notifications";
 import Profile from "../screens/Tabs/Profile";
 import Search from "../screens/Tabs/Search";
 import MessagesLink from "../components/MessagesLink";
+import NavIcon from "../components/NavIcon";
 
 const Tab = createBottomTabNavigator();
 const Stack = createStackNavigator();
@@ -19,7 +20,10 @@ const stackFactory = (initialRoute, name, customConfig) => {
       <Stack.Screen
         component={initialRoute}
         name={name}
-        options={{ ...customConfig }}
+        options={{
+          ...customConfig,
+          headerStyle: { backgroundColor: "#EFEEEF" },
+        }}
       />
     </Stack.Navigator>
   );
@@ -27,22 +31,51 @@ const stackFactory = (initialRoute, name, customConfig) => {
 
 const TabNavigation = () => {
   return (
-    <Tab.Navigator>
-      <Tab.Screen name="Home">
+    <Tab.Navigator
+      tabBarOptions={{
+        showLabel: false,
+        tabStyle: { backgroundColor: "#EFEEEF" },
+      }}
+    >
+      <Tab.Screen
+        name="Home"
+        options={{
+          tabBarIcon: ({ focused }) => (
+            <NavIcon
+              focused={focused}
+              name={Platform.OS === "ios" ? "ios-home" : "md-home"}
+            />
+          ),
+        }}
+      >
         {() =>
           stackFactory(Home, "Home", {
-            headerTitle: "Home",
             headerRight: () => <MessagesLink />,
+            headerTitle: (
+              <Image source={require("../assets/instagramLogo.png")} />
+            ),
           })
         }
       </Tab.Screen>
-      <Tab.Screen name="Notifications">
+
+      <Tab.Screen
+        name="Search"
+        options={{
+          tabBarIcon: ({ focused }) => (
+            <NavIcon
+              focused={focused}
+              name={Platform.OS === "ios" ? "ios-search" : "md-search"}
+            />
+          ),
+        }}
+      >
         {() =>
-          stackFactory(Notifications, "Notifications", {
-            title: "Notifications",
+          stackFactory(Search, "Search", {
+            title: "Search",
           })
         }
       </Tab.Screen>
+
       <Tab.Screen
         name="Add"
         component={View}
@@ -52,18 +85,59 @@ const TabNavigation = () => {
             navigation.navigate("PhotoNavigation");
           },
         })}
+        options={{
+          tabBarIcon: () => (
+            <NavIcon
+              name={
+                Platform.OS === "ios"
+                  ? "ios-add-circle-outline"
+                  : "md-add-circle-outline"
+              }
+            />
+          ),
+        }}
       />
-      <Tab.Screen name="Profile">
+
+      <Tab.Screen
+        name="Notifications"
+        options={{
+          tabBarIcon: ({ focused }) => (
+            <NavIcon
+              focused={focused}
+              name={
+                Platform.OS === "ios"
+                  ? focused
+                    ? "ios-heart"
+                    : "ios-heart-empty"
+                  : focused
+                  ? "md-heart"
+                  : "md-heart-empty"
+              }
+            />
+          ),
+        }}
+      >
         {() =>
-          stackFactory(Profile, "Profile", {
-            title: "Profile",
+          stackFactory(Notifications, "Notifications", {
+            title: "Notifications",
           })
         }
       </Tab.Screen>
-      <Tab.Screen name="Search">
+
+      <Tab.Screen
+        name="Profile"
+        options={{
+          tabBarIcon: ({ focused }) => (
+            <NavIcon
+              focused={focused}
+              name={Platform.OS === "ios" ? "ios-person" : "md-person"}
+            />
+          ),
+        }}
+      >
         {() =>
-          stackFactory(Search, "Search", {
-            title: "Search",
+          stackFactory(Profile, "Profile", {
+            title: "Profile",
           })
         }
       </Tab.Screen>
