@@ -45,7 +45,7 @@ export default () => {
         navigation.navigate("Confirm", { email: value });
         return;
       } else {
-        Alert.alert("Account not found");
+        Alert.alert("Account not found", "Please sign up");
         navigation.navigate("Signup", { email: value });
       }
     } catch (error) {

@@ -17,7 +17,6 @@ const View = styled.View`
 `;
 
 export default ({ route }) => {
-  const navigation = useNavigation();
   const { email } = route.params;
   const confirmInput = useInput("");
   const logIn = useLogIn();
