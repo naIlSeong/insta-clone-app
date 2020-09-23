@@ -1,5 +1,4 @@
 import React, { useEffect, useState } from "react";
-import { Text, TouchableOpacity, View } from "react-native";
 import AsyncStorage from "@react-native-community/async-storage";
 import { ApolloProvider } from "react-apollo-hooks";
 import { ThemeProvider } from "styled-components";
@@ -30,8 +29,17 @@ export default function App() {
         cache,
         storage: AsyncStorage,
       });
+
       const client = new ApolloClient({
         cache,
+        request: async (operation) => {
+          const token = await AsyncStorage.getItem("jwt");
+          return operation.setContext({
+            headers: {
+              Authorization: `Bearer ${token}`,
+            },
+          });
+        },
         ...apolloCientOptions,
       });
 
