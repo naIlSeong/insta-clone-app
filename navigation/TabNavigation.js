@@ -1,6 +1,5 @@
-import { View, Image, Platform } from "react-native";
-
 import React from "react";
+import { View, Image, Platform } from "react-native";
 import { createBottomTabNavigator } from "@react-navigation/bottom-tabs";
 import { createStackNavigator } from "@react-navigation/stack";
 
@@ -10,6 +9,7 @@ import Profile from "../screens/Tabs/Profile";
 import Search from "../screens/Tabs/Search";
 import MessagesLink from "../components/MessagesLink";
 import NavIcon from "../components/NavIcon";
+import { navigationStyles } from "./config";
 
 const Tab = createBottomTabNavigator();
 const Stack = createStackNavigator();
@@ -22,7 +22,7 @@ const stackFactory = (initialRoute, name, customConfig) => {
         name={name}
         options={{
           ...customConfig,
-          headerStyle: { backgroundColor: "#EFEEEF" },
+          headerStyle: { ...navigationStyles },
         }}
       />
     </Stack.Navigator>
@@ -34,7 +34,7 @@ const TabNavigation = () => {
     <Tab.Navigator
       tabBarOptions={{
         showLabel: false,
-        tabStyle: { backgroundColor: "#EFEEEF" },
+        style: { ...navigationStyles },
       }}
     >
       <Tab.Screen

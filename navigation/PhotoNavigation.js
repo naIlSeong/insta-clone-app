@@ -5,13 +5,17 @@ import { createStackNavigator } from "@react-navigation/stack";
 import SelectPhoto from "../screens/Photo/SelectPhoto";
 import TakePhoto from "../screens/Photo/TakePhoto";
 import UploadPhoto from "../screens/Photo/UploadPhoto";
+import { navigationStyles } from "./config";
 
 const Tab = createMaterialTopTabNavigator();
 const Stack = createStackNavigator();
 
 const PhotoTabs = () => {
   return (
-    <Tab.Navigator tabBarPosition="bottom">
+    <Tab.Navigator
+      tabBarPosition="bottom"
+      tabBarOptions={{ style: { ...navigationStyles } }}
+    >
       <Tab.Screen name="Select" component={SelectPhoto} />
       <Tab.Screen name="Take" component={TakePhoto} />
     </Tab.Navigator>
