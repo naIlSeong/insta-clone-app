@@ -15,6 +15,16 @@ const View = styled.View`
   align-items: center;
 `;
 
+const FBConnect = styled.View`
+  margin-top: 60px;
+  padding-top: 30px;
+  border-top-width: 1px;
+  border-style: solid;
+  border-color: ${(props) => props.theme.lightGreyColor};
+  width: 80%;
+  align-items: center;
+`;
+
 export default ({ route }) => {
   const navigation = useNavigation();
   const [loading, setLoading] = useState(false);
@@ -34,7 +44,6 @@ export default ({ route }) => {
 
   const handleSignup = async () => {
     const { value: firstNameValue } = firstNameInput;
-    const { value: lastNameValue } = lastNameInput;
     const { value: emailValue } = emailInput;
     const { value: usernameValue } = usernameInput;
     const emailRegex = /^(([^<>()\[\]\\.,;:\s@"]+(\.[^<>()\[\]\\.,;:\s@"]+)*)|(".+"))@((\[[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}])|(([a-zA-Z\-0-9]+\.)+[a-zA-Z]{2,}))$/;
@@ -93,6 +102,14 @@ export default ({ route }) => {
           autoCorrect={false}
         />
         <AuthButton loading={loading} text="Sign Up" onPress={handleSignup} />
+        <FBConnect>
+          <AuthButton
+            loading={loading}
+            text="Log in with Facebook"
+            onPress={() => null}
+            bgColor="#012577"
+          />
+        </FBConnect>
       </View>
     </TouchableWithoutFeedback>
   );

@@ -7,7 +7,8 @@ import { screenWidth } from "../constants";
 
 const Touchable = styled.TouchableOpacity``;
 const Container = styled.View`
-  background-color: ${(props) => props.theme.blueColor};
+  background-color: ${(props) =>
+    props.bgColor ? props.bgColor : props.theme.blueColor};
   padding: 6px;
   width: ${screenWidth / 2}px;
   border-radius: 3px;
@@ -18,9 +19,9 @@ const Text = styled.Text`
   font-weight: 600;
 `;
 
-const AuthButton = ({ text, onPress, loading = false }) => (
+const AuthButton = ({ text, onPress, loading = false, bgColor = null }) => (
   <Touchable disabled={loading} onPress={onPress}>
-    <Container>
+    <Container bgColor={bgColor}>
       {loading ? <ActivityIndicator color="white" /> : <Text>{text}</Text>}
     </Container>
   </Touchable>
