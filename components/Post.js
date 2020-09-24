@@ -1,11 +1,20 @@
-import React from "react";
-import { Image } from "react-native";
+import React, { useState } from "react";
+import { Alert, Image } from "react-native";
 import Swiper from "react-native-swiper";
 import styled from "styled-components";
 import PropTypes from "prop-types";
 import { Ionicons } from "@expo/vector-icons";
+import { gql } from "apollo-boost";
 
 import { screenWidth } from "../constants";
+import styles from "../styles";
+import { useMutation } from "react-apollo-hooks";
+
+export const TOGGLE_LIKE = gql`
+  mutation toggleLike($postId: String!) {
+    toggleLike(postId: $postId)
+  }
+`;
 
 const Container = styled.View``;
 const Header = styled.View`
@@ -50,13 +59,36 @@ const CommentsCount = styled.Text`
 `;
 
 const Post = ({
+  id,
   user,
   location,
   files = [],
-  likeCount,
+  likeCount: likeCountProp,
   caption,
   comments = [],
+  isLike: isLikeProp,
 }) => {
+  const [isLike, setIsLike] = useState(isLikeProp);
+  const [likeCount, setLikeCount] = useState(likeCountProp);
+  const [toggleLikeMutation] = useMutation(TOGGLE_LIKE, {
+    variables: {
+      postId: id,
+    },
+  });
+  const handleLIke = async () => {
+    if (isLike === true) {
+      setLikeCount((l) => l - 1);
+    } else {
+      setLikeCount((l) => l + 1);
+    }
+    setIsLike((p) => !p);
+    try {
+      await toggleLikeMutation();
+    } catch (error) {
+      console.log(error);
+    }
+  };
+
   return (
     <Container>
       <Header>
@@ -85,11 +117,18 @@ const Post = ({
       </Swiper>
       <InfoContainer>
         <IconsContainer>
-          <Touchable>
+          <Touchable onPress={handleLIke}>
             <IconContainer>
               <Ionicons
+                color={isLike ? styles.redColor : styles.blackColor}
                 name={
-                  Platform.OS === "ios" ? "ios-heart-empty" : "md-heart-empty"
+                  Platform.OS === "ios"
+                    ? isLike
+                      ? "ios-heart"
+                      : "ios-heart-empty"
+                    : isLike
+                    ? "md-heart"
+                    : "md-heart-empty"
                 }
                 size={30}
               />
