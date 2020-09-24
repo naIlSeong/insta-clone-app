@@ -1,4 +1,5 @@
-import React from "react";
+import React, { useState } from "react";
+import { Alert, RefreshControl, ScrollView } from "react-native";
 import { gql } from "apollo-boost";
 import { useQuery } from "react-apollo-hooks";
 import styled from "styled-components";
@@ -43,8 +44,26 @@ const View = styled.View`
 const Text = styled.Text``;
 
 export default () => {
-  const { loading, data } = useQuery(FEED_QUERY);
-  console.log(loading, data);
+  const [refreshing, setRefreshing] = useState(false);
+  const { loading, data, refetch } = useQuery(FEED_QUERY);
+  const onRefresh = async () => {
+    try {
+      setRefreshing(true);
+      await refetch();
+    } catch (error) {
+      Alert.alert("Can't refresh");
+    } finally {
+      setRefreshing(false);
+    }
+  };
 
-  return <View>{loading ? <Loader /> : null}</View>;
+  return (
+    <ScrollView
+      refreshControl={
+        <RefreshControl refreshing={refreshing} onRefresh={onRefresh} />
+      }
+    >
+      {loading ? <Loader /> : <Text>Hi 🍅</Text>}
+    </ScrollView>
+  );
 };
