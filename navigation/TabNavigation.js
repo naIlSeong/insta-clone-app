@@ -13,7 +13,6 @@ import NavIcon from "../components/NavIcon";
 import UserDetail from "../components/UserDetail";
 import { navigationStyles } from "./config";
 import styles from "../styles";
-import { useNavigation } from "@react-navigation/native";
 
 const Tab = createBottomTabNavigator();
 const Stack = createStackNavigator();
@@ -37,6 +36,7 @@ const stackFactory = (initialRoute, name, customConfig) => {
           headerStyle: { ...navigationStyles },
           headerTintColor: styles.blackColor,
           headerTitle: "Photo",
+          headerBackTitle: " ",
         }}
       />
       <Stack.Screen
