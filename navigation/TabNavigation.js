@@ -13,6 +13,7 @@ import NavIcon from "../components/NavIcon";
 import UserDetail from "../components/UserDetail";
 import { navigationStyles } from "./config";
 import styles from "../styles";
+import { useNavigation } from "@react-navigation/native";
 
 const Tab = createBottomTabNavigator();
 const Stack = createStackNavigator();
