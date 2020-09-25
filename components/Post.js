@@ -1,5 +1,5 @@
 import React, { useState } from "react";
-import { Alert, Image } from "react-native";
+import { Image } from "react-native";
 import Swiper from "react-native-swiper";
 import styled from "styled-components";
 import PropTypes from "prop-types";
@@ -9,6 +9,7 @@ import { gql } from "apollo-boost";
 import { screenWidth } from "../constants";
 import styles from "../styles";
 import { useMutation } from "react-apollo-hooks";
+import { useNavigation } from "@react-navigation/native";
 
 export const TOGGLE_LIKE = gql`
   mutation toggleLike($postId: String!) {
@@ -68,6 +69,7 @@ const Post = ({
   comments = [],
   isLike: isLikeProp,
 }) => {
+  const navigation = useNavigation();
   const [isLike, setIsLike] = useState(isLikeProp);
   const [likeCount, setLikeCount] = useState(likeCountProp);
   const [toggleLikeMutation] = useMutation(TOGGLE_LIKE, {
@@ -92,13 +94,17 @@ const Post = ({
   return (
     <Container>
       <Header>
-        <Touchable>
+        <Touchable
+          onPress={() => navigation.navigate("UserDetail", { id: user.id })}
+        >
           <Image
             style={{ width: 30, height: 30, borderRadius: 15, marginRight: 8 }}
             source={{ uri: user.avatar }}
           />
         </Touchable>
-        <Touchable>
+        <Touchable
+          onPress={() => navigation.navigate("UserDetail", { id: user.id })}
+        >
           <Bold>{user.username}</Bold>
           {location ? <Location>{location}</Location> : null}
         </Touchable>

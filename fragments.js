@@ -3,17 +3,19 @@ import { gql } from "apollo-boost";
 export const POST_FRAGMENT = gql`
   fragment PostParts on Post {
     id
-    caption
     location
+    caption
     user {
       id
-      username
       avatar
+      username
     }
     files {
       id
       url
     }
+    likeCount
+    isLike
     comments {
       id
       text
@@ -22,8 +24,25 @@ export const POST_FRAGMENT = gql`
         username
       }
     }
-    isLike
-    likeCount
     createdAt
   }
+`;
+
+export const USER_FRAGMENT = gql`
+  fragment UserParts on User {
+    id
+    avatar
+    username
+    fullName
+    isFollowing
+    isSelf
+    bio
+    followingCount
+    followersCount
+    postsCount
+    posts {
+      ...PostParts
+    }
+  }
+  ${POST_FRAGMENT}
 `;

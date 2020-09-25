@@ -10,6 +10,7 @@ import Search from "../screens/Tabs/Search";
 import Detail from "../screens/Detail";
 import MessagesLink from "../components/MessagesLink";
 import NavIcon from "../components/NavIcon";
+import UserDetail from "../components/UserDetail";
 import { navigationStyles } from "./config";
 import styles from "../styles";
 
@@ -35,6 +36,17 @@ const stackFactory = (initialRoute, name, customConfig) => {
           headerStyle: { ...navigationStyles },
           headerTintColor: styles.blackColor,
           headerTitle: "Photo",
+        }}
+      />
+      <Stack.Screen
+        name="UserDetail"
+        component={UserDetail}
+        options={{
+          ...customConfig,
+          headerStyle: { ...navigationStyles },
+          headerTintColor: styles.blackColor,
+          headerTitle: "User",
+          headerBackTitle: " ",
         }}
       />
     </Stack.Navigator>
