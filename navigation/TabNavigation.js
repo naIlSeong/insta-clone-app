@@ -11,6 +11,7 @@ import Detail from "../screens/Detail";
 import MessagesLink from "../components/MessagesLink";
 import NavIcon from "../components/NavIcon";
 import { navigationStyles } from "./config";
+import styles from "../styles";
 
 const Tab = createBottomTabNavigator();
 const Stack = createStackNavigator();
@@ -26,7 +27,16 @@ const stackFactory = (initialRoute, name, customConfig) => {
           headerStyle: { ...navigationStyles },
         }}
       />
-      <Stack.Screen name="Detail" component={Detail} />
+      <Stack.Screen
+        name="Detail"
+        component={Detail}
+        options={{
+          ...customConfig,
+          headerStyle: { ...navigationStyles },
+          headerTintColor: styles.blackColor,
+          headerTitle: "Photo",
+        }}
+      />
     </Stack.Navigator>
   );
 };
@@ -71,7 +81,12 @@ const TabNavigation = () => {
           ),
         }}
       >
-        {() => stackFactory(Search, "Search")}
+        {() =>
+          stackFactory(Search, "Search", {
+            headerTitle: " ",
+            headerBackTitle: " ",
+          })
+        }
       </Tab.Screen>
 
       <Tab.Screen
