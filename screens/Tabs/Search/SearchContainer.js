@@ -1,22 +1,19 @@
 import React, { useState } from "react";
-import styled from "styled-components";
-import SearchBar from "../../components/SearchBar";
-
-const View = styled.View`
-  flex: 1;
-  justify-content: center;
-  align-items: center;
-`;
-
-const Text = styled.Text``;
+import { Text, View } from "react-native";
+import SearchBar from "../../../components/SearchBar";
+import SearchPresenter from "./SearchPresenter";
 
 export default ({ navigation }) => {
   const [term, setTerm] = useState("");
+  const [shouldFetch, setShouldFetch] = useState(false);
+
   const onChange = (text) => {
+    setShouldFetch(false);
     setTerm(text);
   };
+
   const onSubmit = () => {
-    console.log(term);
+    setShouldFetch(true);
   };
 
   navigation.setOptions({
@@ -24,9 +21,5 @@ export default ({ navigation }) => {
       <SearchBar value={term} onSubmit={onSubmit} onChange={onChange} />
     ),
   });
-  return (
-    <View>
-      <Text>Search</Text>
-    </View>
-  );
+  return <SearchPresenter term={term} shouldFetch={shouldFetch} />;
 };
