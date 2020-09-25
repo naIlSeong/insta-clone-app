@@ -5,11 +5,15 @@ import PropTypes from "prop-types";
 import { gql } from "apollo-boost";
 import { useQuery } from "react-apollo-hooks";
 
+import Loader from "../../../components/Loader";
+import SquarePhoto from "../../../components/SquarePhoto";
+
 const SEARCH = gql`
   query searchPost($term: String!) {
     searchPost(term: $term) {
       id
       files {
+        id
         url
       }
     }
@@ -23,6 +27,7 @@ const SearchPresenter = ({ term, shouldFetch }) => {
       term,
     },
     skip: !shouldFetch,
+    fetchPolicy: "network-only",
   });
 
   const onRefresh = async () => {
@@ -41,12 +46,20 @@ const SearchPresenter = ({ term, shouldFetch }) => {
       refreshControl={
         <RefreshControl onRefresh={onRefresh} refreshing={refresing} />
       }
-    />
+    >
+      {loading ? (
+        <Loader />
+      ) : (
+        data &&
+        data.searchPost &&
+        data.searchPost.map((post) => <SquarePhoto key={post.id} {...post} />)
+      )}
+    </ScrollView>
   );
 };
 
 SearchPresenter.propTypes = {
-  term: PropTypes.string,
+  term: PropTypes.string.isRequired,
   shouldFetch: PropTypes.bool.isRequired,
 };
 

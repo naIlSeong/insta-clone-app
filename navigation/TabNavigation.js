@@ -7,6 +7,7 @@ import Home from "../screens/Tabs/Home";
 import Notifications from "../screens/Tabs/Notifications";
 import Profile from "../screens/Tabs/Profile";
 import Search from "../screens/Tabs/Search";
+import Detail from "../screens/Detail";
 import MessagesLink from "../components/MessagesLink";
 import NavIcon from "../components/NavIcon";
 import { navigationStyles } from "./config";
@@ -25,6 +26,7 @@ const stackFactory = (initialRoute, name, customConfig) => {
           headerStyle: { ...navigationStyles },
         }}
       />
+      <Stack.Screen name="Detail" component={Detail} />
     </Stack.Navigator>
   );
 };
