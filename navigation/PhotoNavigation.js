@@ -6,7 +6,6 @@ import SelectPhoto from "../screens/Photo/SelectPhoto";
 import TakePhoto from "../screens/Photo/TakePhoto";
 import UploadPhoto from "../screens/Photo/UploadPhoto";
 import { navigationStyles } from "./config";
-import { Header } from "react-native/Libraries/NewAppScreen";
 import styles from "../styles";
 
 const Tab = createMaterialTopTabNavigator();
@@ -33,7 +32,12 @@ export default () => (
     <Stack.Screen
       name="PhotoTabs"
       component={PhotoTabs}
-      options={{ headerShown: false }}
+      options={{
+        headerTitle: "Select Photo",
+        headerBackTitle: " ",
+        headerTintColor: styles.blackColor,
+        headerStyle: { backgroundColor: "#EFEEEF" },
+      }}
     />
     <Stack.Screen
       name="UploadPhoto"

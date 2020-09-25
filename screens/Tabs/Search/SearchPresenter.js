@@ -46,6 +46,7 @@ const SearchPresenter = ({ term, shouldFetch }) => {
       refreshControl={
         <RefreshControl onRefresh={onRefresh} refreshing={refresing} />
       }
+      contentContainerStyle={{ flexDirection: "row" }}
     >
       {loading ? (
         <Loader />

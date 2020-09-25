@@ -2,7 +2,7 @@ import React, { useState } from "react";
 import styled from "styled-components";
 import PropTypes from "prop-types";
 import { Image, Platform, View } from "react-native";
-import { TouchableOpacity } from "react-native-gesture-handler";
+import { ScrollView, TouchableOpacity } from "react-native-gesture-handler";
 import { Ionicons } from "@expo/vector-icons";
 import styles from "../styles";
 import { screenWidth } from "../constants";
@@ -120,14 +120,16 @@ const UserProfile = ({
           </Button>
         </TouchableOpacity>
       </ButtonContainer>
-      {posts &&
-        posts.map((p) =>
-          isGrid ? (
-            <SquarePhoto key={p.id} {...p} />
-          ) : (
-            <Post key={p.id} {...p} />
-          )
-        )}
+      <ScrollView contentContainerStyle={{ flexDirection: "row" }}>
+        {posts &&
+          posts.map((p) =>
+            isGrid ? (
+              <SquarePhoto key={p.id} {...p} />
+            ) : (
+              <Post key={p.id} {...p} />
+            )
+          )}
+      </ScrollView>
     </View>
   );
 };
