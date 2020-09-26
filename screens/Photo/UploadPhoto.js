@@ -1,10 +1,28 @@
 import React, { useState } from "react";
 import { ActivityIndicator, Alert, Image } from "react-native";
+import { useNavigation } from "@react-navigation/native";
+import { useMutation } from "react-apollo-hooks";
+import { gql } from "apollo-boost";
 import axios from "axios";
 import styled from "styled-components";
-import { screenWidth } from "../../constants";
+
 import useInput from "../../hooks/useInput";
+import { screenWidth } from "../../constants";
 import styles from "../../styles";
+import { FEED_QUERY } from "../Tabs/Home";
+
+const UPLOAD = gql`
+  mutation upload($caption: String!, $location: String, $files: [String!]!) {
+    upload(caption: $caption, location: $location, files: $files) {
+      id
+      caption
+      location
+      files {
+        url
+      }
+    }
+  }
+`;
 
 const View = styled.View`
   flex: 1;
@@ -47,11 +65,14 @@ const Text = styled.Text`
 `;
 
 export default ({ route }) => {
+  const navigation = useNavigation();
   const { photo } = route.params;
   const [loading, setLoading] = useState(false);
-  const [fileUrl, setFileUrl] = useState("");
   const captionInput = useInput("");
   const locationInput = useInput("");
+  const [uploadMutatin] = useMutation(UPLOAD, {
+    refetchQueries: () => [{ query: FEED_QUERY }],
+  });
 
   const handleSubmit = async () => {
     if (captionInput.value === "" || locationInput.value === "") {
@@ -66,6 +87,7 @@ export default ({ route }) => {
       uri: photo.uri,
     });
     try {
+      setLoading(true);
       const {
         data: { location },
       } = await axios.post("http:localhost:8000/api/upload", formData, {
@@ -73,9 +95,23 @@ export default ({ route }) => {
           "content-type": "multipart/form-data",
         },
       });
-      setFileUrl(location);
+
+      const {
+        data: { upload },
+      } = await uploadMutatin({
+        variables: {
+          files: [location],
+          caption: captionInput.value,
+          location: locationInput.value,
+        },
+      });
+      if (upload.id) {
+        navigation.navigate("Home");
+      }
     } catch (error) {
       Alert.alert("Can't upload", "Try later");
+    } finally {
+      setLoading(false);
     }
   };
 

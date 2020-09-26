@@ -5,6 +5,7 @@ import { USER_FRAGMENT } from "../../fragments";
 import { ScrollView } from "react-native-gesture-handler";
 import { useQuery } from "react-apollo-hooks";
 import Loader from "../../components/Loader";
+import UserProfile from "../../components/UserProfile";
 
 const ME = gql`
   {
@@ -19,6 +20,8 @@ export default () => {
   const { loading, data } = useQuery(ME);
 
   return (
-    <ScrollView>{loading ? <Loader /> : data && data.me && null}</ScrollView>
+    <ScrollView>
+      {loading ? <Loader /> : data && data.me && <UserProfile {...data.me} />}
+    </ScrollView>
   );
 };

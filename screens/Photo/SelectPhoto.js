@@ -14,7 +14,7 @@ const View = styled.View`
 
 const Button = styled.TouchableOpacity`
   position: absolute;
-  background-color: ${styles.darkGreyColor};
+  background-color: ${styles.blueColor};
   width: 80px;
   height: 30px;
   justify-content: center;
