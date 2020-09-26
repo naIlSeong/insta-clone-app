@@ -1,5 +1,6 @@
 import React, { useState } from "react";
 import { ActivityIndicator, Alert, Image } from "react-native";
+import axios from "axios";
 import styled from "styled-components";
 import { screenWidth } from "../../constants";
 import useInput from "../../hooks/useInput";
@@ -48,12 +49,33 @@ const Text = styled.Text`
 export default ({ route }) => {
   const { photo } = route.params;
   const [loading, setLoading] = useState(false);
+  const [fileUrl, setFileUrl] = useState("");
   const captionInput = useInput("");
   const locationInput = useInput("");
 
   const handleSubmit = async () => {
     if (captionInput.value === "" || locationInput.value === "") {
       Alert.alert("All fields are required");
+    }
+    const name = photo.filename;
+    const [, type] = name.split(".");
+    const formData = new FormData();
+    formData.append("file", {
+      name,
+      type: type.toLowerCase(),
+      uri: photo.uri,
+    });
+    try {
+      const {
+        data: { path },
+      } = await axios.post("http:localhost:8000/api/upload", formData, {
+        headers: {
+          "content-type": "multipart/form-data",
+        },
+      });
+      setFileUrl(path);
+    } catch (error) {
+      Alert.alert("Can't upload", "Try later");
     }
   };
 
