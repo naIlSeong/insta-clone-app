@@ -120,7 +120,9 @@ const UserProfile = ({
           </Button>
         </TouchableOpacity>
       </ButtonContainer>
-      <ScrollView contentContainerStyle={{ flexDirection: "row" }}>
+      <ScrollView
+        contentContainerStyle={{ flexDirection: "row", flexWrap: "wrap" }}
+      >
         {posts &&
           posts.map((p) =>
             isGrid ? (

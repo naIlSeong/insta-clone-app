@@ -33,7 +33,7 @@ export default () => (
       name="PhotoTabs"
       component={PhotoTabs}
       options={{
-        headerTitle: "Select Photo",
+        headerTitle: "Photo",
         headerBackTitle: " ",
         headerTintColor: styles.blackColor,
         headerStyle: { backgroundColor: "#EFEEEF" },
@@ -43,7 +43,7 @@ export default () => (
       name="UploadPhoto"
       component={UploadPhoto}
       options={{
-        headerTitle: "",
+        headerTitle: "Upload",
         headerBackTitle: " ",
         headerTintColor: styles.blackColor,
         headerStyle: { backgroundColor: "#EFEEEF" },

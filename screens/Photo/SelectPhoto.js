@@ -6,16 +6,38 @@ import Loader from "../../components/Loader";
 import { Image } from "react-native";
 import { screenWidth } from "../../constants";
 import { ScrollView, TouchableOpacity } from "react-native-gesture-handler";
+import styles from "../../styles";
 
 const View = styled.View`
   flex: 1;
 `;
 
-export default () => {
+const Button = styled.TouchableOpacity`
+  position: absolute;
+  background-color: ${styles.darkGreyColor};
+  width: 80px;
+  height: 30px;
+  justify-content: center;
+  align-items: center;
+  right: 10px;
+  top: 10px;
+  border-radius: 10px;
+`;
+
+const Text = styled.Text`
+  color: white;
+  font-weight: 600;
+`;
+
+export default ({ navigation }) => {
   const [loading, setLoading] = useState(true);
   const [hasPermission, setHasPermission] = useState(false);
   const [selected, setSelected] = useState();
   const [allPhotos, setAllPhotos] = useState();
+
+  const handleSelected = () => {
+    navigation.navigate("UploadPhoto", { photo: selected });
+  };
 
   const changeSelected = (photo) => {
     setSelected(photo);
@@ -60,7 +82,17 @@ export default () => {
                 source={{ uri: selected.uri }}
                 style={{ width: screenWidth, height: screenWidth }}
               />
-              <ScrollView contentContainerStyle={{ flexDirection: "row" }}>
+
+              <Button onPress={handleSelected}>
+                <Text>Upload</Text>
+              </Button>
+
+              <ScrollView
+                contentContainerStyle={{
+                  flexDirection: "row",
+                  flexWrap: "wrap",
+                }}
+              >
                 {allPhotos.map((photo) => (
                   <TouchableOpacity
                     key={photo.id}
