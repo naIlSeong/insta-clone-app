@@ -67,13 +67,13 @@ export default ({ route }) => {
     });
     try {
       const {
-        data: { path },
+        data: { location },
       } = await axios.post("http:localhost:8000/api/upload", formData, {
         headers: {
           "content-type": "multipart/form-data",
         },
       });
-      setFileUrl(path);
+      setFileUrl(location);
     } catch (error) {
       Alert.alert("Can't upload", "Try later");
     }
