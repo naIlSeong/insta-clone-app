@@ -62,9 +62,11 @@ export default () => {
               />
               <ScrollView contentContainerStyle={{ flexDirection: "row" }}>
                 {allPhotos.map((photo) => (
-                  <TouchableOpacity onPress={() => changeSelected(photo)}>
+                  <TouchableOpacity
+                    key={photo.id}
+                    onPress={() => changeSelected(photo)}
+                  >
                     <Image
-                      key={photo.id}
                       source={{ uri: photo.uri }}
                       style={{
                         width: screenWidth / 3,
