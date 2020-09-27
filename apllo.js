@@ -1,5 +1,5 @@
 const apolloCientOptions = {
-  uri: "http://localhost:8000",
+  uri: "https://insta-clone-backend.herokuapp.com/",
 };
 
 export default apolloCientOptions;
